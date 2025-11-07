@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Install komac using winget
       run: |
-        winget install komac --accept-package-agreements
+        winget install komac --accept-source-agreements --accept-package-agreements
     - name: Verify komac installation
       run: |
         komac --version
