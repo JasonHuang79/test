@@ -1,1 +1,13 @@
-name: 
+name: test 
+jobs:
+  test-winget-install-komac:
+	runs-on: windows-latest
+	steps:
+	  - name: Checkout repository
+		uses: actions/checkout@v3
+	  - name: Install komac using winget
+		run: |
+		  winget install -e --id Komac.Komac
+	  - name: Verify komac installation
+		run: |
+		  komac --version
