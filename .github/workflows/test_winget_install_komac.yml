@@ -1,12 +1,11 @@
 name: test winget install komac
 
 on:
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch: 
 
 jobs:
   test-winget-install-komac:
     runs-on: windows-latest
-<<<<<<< HEAD
     steps:
     - name: Install komac using winget
       run: |
@@ -14,14 +13,3 @@ jobs:
     - name: Verify komac installation
       run: |
         komac --version
-=======
-      steps:
-	  - name: Checkout repository
-	      uses: actions/checkout@v3
-	    - name: Install komac using winget
-		  run: |
-		    winget install -e --id Komac.Komac
-	    - name: Verify komac installation
-		  run: |
-		    komac --version
->>>>>>> 545227748254843e2e4e48983abd60583638c397
