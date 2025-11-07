@@ -14,9 +14,7 @@ jobs:
           $url = "https://github.com/russellbanks/Komac/releases/download/v2.13.0/komac-2.13.0-x86_64-pc-windows-msvc.exe"
           $zipFile = "komac.zip"
           Invoke-WebRequest -Uri $url -OutFile $zipFile
-          
           Expand-Archive -Path $zipFile -DestinationPath "komac" -Force
-          
           Get-ChildItem -Path "komac" -Recurse
           
       - name: Add to PATH and test
