@@ -9,7 +9,8 @@ jobs:
     steps:
     - name: Install komac using winget
       run: |
-        winget install komac -y
+        winget install komac
+        y
     - name: Verify komac installation
       run: |
         komac --version
