@@ -1,0 +1,30 @@
+name: Test Komac Installation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  test-komac:
+    runs-on: windows-latest
+    steps:
+      - name: Download and extract Komac
+        run: |
+          $url = "https://github.com/russellbanks/Komac/releases/download/v2.13.0/komac-v2.13.0-x86_64-pc-windows-msvc.zip"
+          $zipFile = "komac.zip"
+          Invoke-WebRequest -Uri $url -OutFile $zipFile
+          
+          Expand-Archive -Path $zipFile -DestinationPath "komac" -Force
+          
+          Get-ChildItem -Path "komac" -Recurse
+          
+      - name: Add to PATH and test
+        run: |
+          $komacPath = Join-Path (Get-Location) "komac"
+          echo "komac_path=$komacPath" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "$komacPath" | Out-File -FilePath $env:GITHUB_PATH -Append
+          
+      - name: Verify Komac works
+        run: |
+          komac --version
