@@ -9,7 +9,8 @@ jobs:
     steps:
     - name: Install komac using winget
       run: |
-        winget install komac --accept-source-agreements --accept-package-agreements
+        winget install komac --accept-source-agreements --accept-package-agreements --location "C:\Program Files\Komac"
     - name: Verify komac installation
       run: |
-        komac --version
+        cd "C:\Program Files\Komac"
+        ./komac --version
