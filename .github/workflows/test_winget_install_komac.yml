@@ -13,4 +13,4 @@ jobs:
     - name: Verify komac installation
       run: |
         cd "C:\Program Files\Komac"
-        ./komac --version
+        komac --version
