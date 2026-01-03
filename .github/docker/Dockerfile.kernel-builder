@@ -1,0 +1,26 @@
+FROM ubuntu:22.04
+
+# 避免安装过程中交互式提示
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 安装所有必要的编译工具和依赖
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    flex \
+    bison \
+    libssl-dev \
+    libelf-dev \
+    bc \
+    kmod \
+    git \
+    wget \
+    curl \
+    ncurses-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# 设置工作目录
+WORKDIR /workspace
+
+# 这个容器的默认命令可以是一个交互式shell，
+# 但我们在Actions中会通过run命令覆盖它。
+CMD ["/bin/bash"]
