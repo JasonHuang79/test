@@ -1,0 +1,42 @@
+name: Build WSL2 Kernel with Binder Support
+
+on:
+  workflow_dispatch: # 允许手动触发
+  push:
+    branches: [ main ]
+    paths: [ '.github/workflows/build_wsl_kernel.yml' ] # 只有工作流文件变更时才触发，避免无限循环
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # 使用GitHub提供的最新Ubuntu运行器
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image with compilation environment
+        run: |
+          docker build -t wsl-kernel-builder -f .github/docker/Dockerfile.kernel-builder .
+
+      - name: Compile Kernel in Container
+        run: |
+          # 在容器中执行编译，并将产物输出到挂载的目录
+          docker run --rm -v ${{ github.workspace }}:/workspace wsl-kernel-builder /bin/bash -c "
+            cd /workspace/WSL2-Linux-Kernel &&
+            # 此处执行你的编译脚本，例如：
+            # ./build_script.sh
+            # 假设最终内核文件为 /workspace/WSL2-Linux-Kernel/vmlinux
+            echo '编译完成'
+          "
+
+      - name: Upload Kernel Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: custom-wsl2-kernel
+          path: ${{ github.workspace }}/WSL2-Linux-Kernel/vmlinux
+          retention-days: 7 # 制品保留7天
